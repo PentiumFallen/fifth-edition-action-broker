@@ -28,7 +28,7 @@ public class MongoConnector {
             return -1;
         }
         else {
-            if (password.toString().isBlank()) {
+            if (password.isBlank()) {
                 //password invalid
                 return -2;
             }
