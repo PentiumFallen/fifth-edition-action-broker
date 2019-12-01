@@ -31,9 +31,10 @@ public class CharactersController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void modifyCharacterById(@PathVariable("id") ObjectId id, @Valid @RequestBody Characters characters) {
+	public Characters modifyCharacterById(@PathVariable("id") ObjectId id, @Valid @RequestBody Characters characters) {
 		characters.set_id(id);
 		repository.save(characters);
+		return characters;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
@@ -44,7 +45,9 @@ public class CharactersController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteCharacter(@PathVariable ObjectId id) {
-		repository.delete(repository.findBy_id(id));
+	public Characters deleteCharacter(@PathVariable ObjectId id) {
+		Characters deleteThis = repository.findBy_id(id);
+		repository.delete(deleteThis);
+		return deleteThis;
 	}
 }
