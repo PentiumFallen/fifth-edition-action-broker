@@ -43,8 +43,14 @@ public class Characters {
 
     public Map<String, Integer> getClasses() { return classes; }
 
+    public void setClasses(Map<String, Integer> classes) { this.classes = classes; }
+
     public ArrayList<CharacterOptions> getOptions() {
         return options;
+    }
+
+    public void setOptions(ArrayList<CharacterOptions> options) {
+        this.options = options;
     }
 
 //	public Characters(String name, String race, Class firstClass) {
@@ -100,8 +106,8 @@ public class Characters {
         charMap.put("name", name);
         charMap.put("race", race);
         charMap.put("level", level);
-        charMap.put("class", classes.toString());
-        charMap.put("options", this.getOptions());
+        charMap.put("class", classes);
+        charMap.put("options", options);
         return(new Document(charMap));
     }
 }

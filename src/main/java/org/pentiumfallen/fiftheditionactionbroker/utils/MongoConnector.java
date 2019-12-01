@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 import static com.mongodb.client.model.Filters.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MongoConnector {
     MongoClient client = MongoClients.create();
@@ -83,7 +84,9 @@ public class MongoConnector {
         Document request = db.getCollection("characters").find(eq("_id", id)).first();
         Characters character =  new Characters(request.getString("name"),
                 request.getString("race"), request.getInteger("level"));
-//		request.get
-        return null;
+        character.set_id(id);
+        character.setClasses((Map<String, Integer>) request.get("classes"));
+        character.setOptions((ArrayList<CharacterOptions>) request.get("options"));
+        return character;
     }
 }

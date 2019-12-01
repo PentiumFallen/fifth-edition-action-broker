@@ -9,5 +9,4 @@ public class FifthEditionActionBrokerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FifthEditionActionBrokerApplication.class, args);
 	}
-
 }
