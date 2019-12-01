@@ -3,31 +3,26 @@ package org.pentiumfallen.fiftheditionactionbroker.utils;
 import org.pentiumfallen.fiftheditionactionbroker.models.CharacterOptions;
 import org.pentiumfallen.fiftheditionactionbroker.models.Characters;
 
-import java.util.ArrayList;
-
 public class ClassHandler {
     MongoConnector con = new MongoConnector();
 
-    public void levelUpTo(Characters character, String nextClass) {
+    public boolean levelUpTo(Characters character, String nextClass) {
         int classLevel = character.levelUp(nextClass);
-        if (classLevel==0) { System.out.println("Character is already at maximum level"); }
+        if (classLevel==0) { return false; }
         else {
-            ArrayList<CharacterOptions> newOptions = new ArrayList<CharacterOptions>();
-            addOptions(newOptions, nextClass, classLevel);
+            addOptions(character, nextClass, classLevel);
             //Ask for confirmation
-            for (CharacterOptions characterOption : newOptions) {
-                character.options.add(characterOption);
-            }
-            con.commitCharacter(character);
+            //con.commitCharacter(character);
+            return true;
         }
     }
 
-    private void addOptions(ArrayList<CharacterOptions> newOptions, String nextClass, int classLevel) {
+    private void addOptions(Characters character,  String nextClass, int classLevel) {
         switch (nextClass) {
             case "Barbarian":
                 switch (classLevel) {
                     case 1:
-                        newOptions.add(new CharacterOptions(2, "Rage",
+                        character.options.add(new CharacterOptions(2, "Rage",
                                 "On your turn, you can enter a rage as a bonus action. While raging, you gain the following benefits if you aren't wearing heavy armor:\r\n" +
                                         "\r\n" +
                                         "You have advantage on all Strength checks and Strength saving throws.\r\n" +
@@ -38,13 +33,13 @@ public class ClassHandler {
                                         "Your rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends and you haven't attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on your turn as a bonus action.\r\n" +
                                         "\r\n" +
                                         "Once you have raged the number of times shown for your barbarian level in the Rages column of the Barbarian table, you must finish a long rest before you can rage again."));
-                        newOptions.add(new CharacterOptions(0, "Unarmored Defense",
+                        character.options.add(new CharacterOptions(0, "Unarmored Defense",
                                 "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit."));
                         break;
                     case 2:
-                        newOptions.add(new CharacterOptions(0, "Reckless Attack",
+                        character.options.add(new CharacterOptions(0, "Reckless Attack",
                                 "Starting at 2nd level, when you make your first attack on your turn, you can decide to attack recklessly. Doing so gives you advantage on all melee weapon attack rolls using Strength during that turn, but attack rolls against you are rolled with advantage until the beginning of your next turn."));
-                        newOptions.add(new CharacterOptions(0, "Danger Sense",
+                        character.options.add(new CharacterOptions(0, "Danger Sense",
                                 "At 2nd level, you have advantage on Dexterity saving throws against effects that you can see, such as traps or spells. You do not gain this benefit if you are blinded, deafened, or incapacitated."));
                         break;
                     case 3:
