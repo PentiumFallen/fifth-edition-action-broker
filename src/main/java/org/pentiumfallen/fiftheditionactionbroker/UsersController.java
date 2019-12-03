@@ -45,8 +45,8 @@ public class UsersController {
 		return users;
 	}
 
-	@RequestMapping(value = "/{id}/char", method = RequestMethod.PUT)
-	public Users addCharacter(@PathVariable("id") ObjectId id, @Valid @RequestBody ObjectId newChar) {
+	@RequestMapping(value = "/{id}/{char}", method = RequestMethod.PUT)
+	public Users addCharacter(@PathVariable("id") ObjectId id, @PathVariable("char") ObjectId newChar) {
 		Users thisGuy = repository.findBy_id(id);
 		thisGuy.addCharacter(newChar);
 		repository.save(thisGuy);
