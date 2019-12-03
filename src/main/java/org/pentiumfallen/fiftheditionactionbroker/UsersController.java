@@ -30,12 +30,8 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/{id}/characters", method = RequestMethod.GET)
-	public List<Characters> getUserCharacters(@PathVariable("id") ObjectId id) {
-		List<Characters> allChars = new ArrayList<>();
-		for (String charId: repository.findBy_id(id).getCharacters()) {
-			allChars.add(charRepo.findBy_id(new ObjectId(charId)));
-		}
-		return allChars;
+	public List<String> getUserCharacters(@PathVariable("id") ObjectId id) {
+		return repository.findBy_id(id).getCharacters();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
