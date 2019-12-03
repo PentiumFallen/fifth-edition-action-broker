@@ -1,12 +1,15 @@
 package org.pentiumfallen.fiftheditionactionbroker;
 
 import org.bson.types.ObjectId;
+import org.pentiumfallen.fiftheditionactionbroker.models.Characters;
 import org.pentiumfallen.fiftheditionactionbroker.models.Users;
+import org.pentiumfallen.fiftheditionactionbroker.repositories.CharactersRepository;
 import org.pentiumfallen.fiftheditionactionbroker.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,6 +17,7 @@ import java.util.List;
 public class UsersController {
 	@Autowired
 	private UsersRepository repository;
+	private CharactersRepository charRepo;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public List<Users> getAllUsers() {
@@ -23,6 +27,15 @@ public class UsersController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Users getUserById(@PathVariable("id") ObjectId id) {
 		return repository.findBy_id(id);
+	}
+
+	@RequestMapping(value = "/{id}/characters", method = RequestMethod.GET)
+	public List<Characters> getUserCharacters(@PathVariable("id") ObjectId id) {
+		List<Characters> allChars = new ArrayList<>();
+		for (String charId: repository.findBy_id(id).getCharacters()) {
+			allChars.add(charRepo.findBy_id(new ObjectId(charId)));
+		}
+		return allChars;
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

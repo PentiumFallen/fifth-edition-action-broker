@@ -69,6 +69,10 @@ public class Characters {
         options = new ArrayList<CharacterOptions>();
     }
 
+    public void addOption(CharacterOptions option) {
+        options.add(option);
+    }
+
     public int levelUp(String nextClass) {
         if (level==20) {return 0;}
         else if (classes.get(nextClass)!=null) {

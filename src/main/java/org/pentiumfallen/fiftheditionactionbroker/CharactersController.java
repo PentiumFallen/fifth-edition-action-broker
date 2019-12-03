@@ -1,5 +1,6 @@
 package org.pentiumfallen.fiftheditionactionbroker;
 
+import org.pentiumfallen.fiftheditionactionbroker.models.CharacterOptions;
 import org.pentiumfallen.fiftheditionactionbroker.models.Characters;
 import org.pentiumfallen.fiftheditionactionbroker.repositories.CharactersRepository;
 
@@ -31,6 +32,11 @@ public class CharactersController {
 		return repository.findBy_id(id);
 	}
 
+	@RequestMapping(value = "/{id}/options", method = RequestMethod.GET)
+	public List<CharacterOptions> getCharacterOptions(@PathVariable("id") ObjectId id) {
+		return repository.findBy_id(id).options;
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public Characters modifyCharacterById(@PathVariable("id") ObjectId id, @Valid @RequestBody Characters characters) {
 		characters.set_id(id);
@@ -38,6 +44,13 @@ public class CharactersController {
 		return characters;
 	}
 
+	@RequestMapping(value = "/{id}/option", method = RequestMethod.PUT)
+	public CharacterOptions addOptionToCharacter(@PathVariable("id") ObjectId id, @Valid @RequestBody CharacterOptions option) {
+		Characters characters = repository.findBy_id(id);
+		characters.addOption(option);
+		repository.save(characters);
+		return option;
+	}
 	@RequestMapping(value = "/{id}/{class}", method = RequestMethod.PUT)
 	public Characters levelUpCharacter(@PathVariable("id") ObjectId id, @PathVariable("class") String nextClass) {
 		Characters thisGuy = repository.findBy_id(id);
